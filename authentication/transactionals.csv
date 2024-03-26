@@ -1,0 +1,6 @@
+username,id,name,surname,age,savings_account,transactional_account,password
+user123,1001,John,Doe,30,5000.00,2000.00,P@ssw0rd123
+client456,1002,Jane,Smith,35,7500.00,3000.00,SecurePwd456
+customer789,1003,Michael,Johnson,42,6000.00,4000.00,Secret123!
+accountant007,1004,Emily,Williams,28,8200.00,2500.00,Pa$$w0rd789
+userxyz,1005,David,Brown,29,4000.00,3500.00,MyPwdIsStrong

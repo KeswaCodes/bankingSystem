@@ -1,25 +1,25 @@
-import csv
-clientInfo, id_list, userNames = [], [], []
 '''
     this module consists of file handling functions
-
-    readFile reads a text file and returns the contents of the file
 '''
+import csv
+clientInfo, id_list, userNames = [], [], []
 
-def filesStart():
-    fileContent = csvReader("username.csv")
+
+def fileReadingStart():
+    '''fileReadingStart calls helper functions involved in reading the files'''
+    fileContent = csvReader("transactionals.csv") # file should come in 
     clientsDict = processCsvList(fileContent)
-    print(clientsDict)
 
-
+    return clientsDict
 
 
 def processWordHolder(clientListValues):
     '''
-        function convert list to dictionary with keys as values in the list below
+        processWordHolder converts list to dictionary with keys as values in the list below
+        @clientListValues is a list of values read from csv file
         Return value: returns a dictionary 
     '''
-    values = ["first name", "last name"]
+    values = ["first name", "last name", "age", "transactional account", "savings account", "password"]
     myDict = {}
     
     for value in values:
@@ -28,34 +28,35 @@ def processWordHolder(clientListValues):
     return myDict
 
 
-
 def csvReader(file):
     '''
-        csvReader() is a function that reads a csv file
-        Return value: a dictionary of the clients
+        csvReader reads a csv file
+        @file is the csv file to be read
+        Return value: a list of the contents of the csv file passed
     '''
     csvList = []
 
     with open(file, "r") as f:
         csvValues = csv.reader(f)
         for word in csvValues:
-            print(word)
             csvList.append(word)
-    print("CSV Values" , csvList , "\n\n\n")
+            
     return csvList
-
 
 
 def processCsvList(csvList):
     '''
-        processCsvList() converts CSV list into a dictionary
+        processCsvList converts CSV list into a dictionary
+        @csvList
         Return value: dictionary of client info
     '''
     global userNames, id_list, clientInfo
     i = 1
     while(i < len(csvList)) :
-            wordHolder = "".join(csvList[i])
+            wordHolder = ";".join(csvList[i])
+            print(wordHolder)
             wordHolder = wordHolder.split(";")
+            print(wordHolder)
             userNames.append(wordHolder.pop(0)) # get the username
             id_list.append(wordHolder.pop(0)) # get the userID
             myDictValue = processWordHolder(wordHolder) # create a dictionary of the client info
@@ -70,7 +71,5 @@ def resetGlobals():
 
     csvList, clientInfo, id_list, userNames = [], [], [], []
 
-
-
-filesStart()
+fileReadingStart()
 
