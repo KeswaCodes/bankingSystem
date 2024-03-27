@@ -1,31 +1,22 @@
 '''
-    this module consists of file handling functions
+    this module consists of file reading & handling
 '''
 import csv
-clientInfo, id_list, userNames = [], [], []
+import sys
+from bank_clients.clients import *
 
-
-def fileReadingStart():
-    '''fileReadingStart calls helper functions involved in reading the files'''
-    fileContent = csvReader("transactionals.csv") # file should come in 
+def fileReadingStart(file):
+    '''
+        fileReadingStart calls helper functions involved in reading the files
+        @file is the csv file to be read
+        Return value: a dictionary of all the clients at the bank
+    '''
+    # file should come in 
+    fileContent = csvReader(file) 
     clientsDict = processCsvList(fileContent)
+    clientsDict = createDictsClientInfo(clientsDict)
 
     return clientsDict
-
-
-def processWordHolder(clientListValues):
-    '''
-        processWordHolder converts list to dictionary with keys as values in the list below
-        @clientListValues is a list of values read from csv file
-        Return value: returns a dictionary 
-    '''
-    values = ["first name", "last name", "age", "transactional account", "savings account", "password"]
-    myDict = {}
-    
-    for value in values:
-        myDict[value] = clientListValues.pop(0)
-    
-    return myDict
 
 
 def csvReader(file):
@@ -50,26 +41,19 @@ def processCsvList(csvList):
         @csvList
         Return value: dictionary of client info
     '''
-    global userNames, id_list, clientInfo
+    global clientUsernames, clientIDs, clientInfo
     i = 1
     while(i < len(csvList)) :
             wordHolder = ";".join(csvList[i])
-            print(wordHolder)
             wordHolder = wordHolder.split(";")
-            print(wordHolder)
-            userNames.append(wordHolder.pop(0)) # get the username
-            id_list.append(wordHolder.pop(0)) # get the userID
-            myDictValue = processWordHolder(wordHolder) # create a dictionary of the client info
+            # get the username
+            clientUsernames.append(wordHolder.pop(0)) 
+            # get the userID
+            clientIDs.append(wordHolder.pop(0)) 
+            # create a dictionary of the client info
+            myDictValue = processClientInfo(wordHolder) 
             clientInfo.append(myDictValue)
             i += 1
 
     return clientInfo
-
-
-def resetGlobals():
-    ''' resetGlobals() resets the global variables used in this module'''
-
-    csvList, clientInfo, id_list, userNames = [], [], [], []
-
-fileReadingStart()
 
