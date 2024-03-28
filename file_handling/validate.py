@@ -39,12 +39,8 @@ def validUsernameFormat(inpt):
         @inpt is a string of the username parsed to the function
         Return value: boolean; True if username is in correct format, false if otherwise 
     '''
-    
-    # check for any occurance of a digit in the string
-    result1 = any(char.isdigit() for char in inpt) 
-    result2 = any(char.isalpha() for char in inpt)
 
-    if (len(inpt) == 9) and (result1 and result2):
+    if (len(inpt) == 9): 
         pattern = re.compile(r'(\w+)(\d)(\d)(\d)')
         matchObj = pattern.search(inpt)
 

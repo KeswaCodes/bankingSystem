@@ -11,7 +11,6 @@ def fileReadingStart(file):
         @file is the csv file to be read
         Return value: a dictionary of all the clients at the bank
     '''
-    # file should come in 
     fileContent = csvReader(file) 
     clientsDict = processCsvList(fileContent)
     clientsDict = createDictsClientInfo(clientsDict)

@@ -7,16 +7,14 @@ def userExists(username):
         @username is the username entered by the client to be validated/checked
         Return value: userID if user is found, false if otherwise
     '''
-    global clientsUsernameIDs
+    global clientsMapping
 
-    if validInput([username], "username") is False:
-        return 'False'
-        
-    for usrname in clientsUsernameIDs:
-        if usrname == username:
-            return clientsUsernameIDs[usrname]
-    print("Username does not exist")
-    return 'False'
+    for clientUsername in clientsMapping:
+        if clientUsername == username:
+            return clientsMapping[clientUsername]
+
+    print("User does not exist")
+    return "Does not exist"
 
 
 def correctUserPassword(userPassword, clientID, dictClients):
@@ -27,6 +25,7 @@ def correctUserPassword(userPassword, clientID, dictClients):
         @dictClients is a dictionary of all the clients at a bank
         Return value: boolean; True if the passwords match, False if otherwise
     '''
+
 
     client = dictClients.get(clientID)
     client_password = client.get("password")

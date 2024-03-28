@@ -3,31 +3,51 @@ from login.log import *
 from authentication.files import *
 from authentication.authenticate import *
 
-isUserLoggedIn = False
 
 def myBankStart():
-    flag, loggedInUser = bankLogin()
-    displayAccounts(loggedInUser)
+    global userLoggedIn
+
+    user = bankLogin()
+    if userLoggedIn:
+        displayAccounts(user)
 
 
 def bankLogin():
     '''bankLogin logs the user into the banking system'''
-    global isUserLoggedIn
+    global userLoggedIn
     clients = fileReadingStart("bank_clients\\clients.csv")
-    userName, userPassword = getLogins()
-    clientID = userExists("zinksw023")
-    if clientID == 'False':
-        signUp = input("Would you like to sign up?")
-        return '', ''
-        # signUpFunction
     
-    passwordCheck, loggedInUser = correctUserPassword("zee", clientID, clients)
-    if passwordCheck == "False":
-        return False, ''
+    while True:
+        userName, userPassword = getLogins()
+        userID = userExists(userName)
+        if userID == "Does not exist":
+            # call sign up function
+            return
+        break
+    
+    user = passwordMatch(userPassword, userID, clients)
+    userLoggedIn = True
+    return user
 
-    isUserLoggedIn = True
-    return True, loggedInUser
 
+def passwordMatch(userPassword, userID, clients):
+    '''
+    passwordMatch ensures user enters correct password to client account
+    @userPassword is the password entered by user in terminal
+    @userID is the client identification
+    @clients is a dictionary of all the bank's clients 
+    Return value: returns the logged in user
+    '''
+    while True:
+        passwordCheck, user = correctUserPassword(userPassword, userID, clients)
+        if passwordCheck == False:
+            print("Invalid password entered")
+            userPassword = input("Enter password: ") 
+            continue
+        break  
+
+    return user 
+    
 
 
 def displayAccounts(client):
